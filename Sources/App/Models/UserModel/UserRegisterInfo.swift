@@ -25,10 +25,10 @@ enum UserRegistEnum : String {
 final class UserRegistInfo : MySQLModel{
     static var entity = "user_regist_info"
     var id : Int?
-    var username    :   String
-    var password    :   String?
-    var email       :   String?
-    var verifycode  :   String?
+    var username : String
+    var password : String?
+    var email : String?
+    var verifycode : String?
     init(_ id : Int?, _ username : String, password : String?, _ email : String?,_ verifycode : String?) {
         self.id = id
         self.username = username

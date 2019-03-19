@@ -20,7 +20,7 @@ extension SercretKey:Migration{}
 extension SercretKey{
     //检查是否授权
     static func JudgeSercretKey(sercreKey:String,req:Request) throws -> Future<Bool>{
-        return try SercretKey.query(on:req).filter(\.sercretkey == sercreKey).first().map(){ result in
+        return  SercretKey.query(on:req).filter(\.sercretkey == sercreKey).first().map(){ result in
             if result == nil{
                 return false
             }
