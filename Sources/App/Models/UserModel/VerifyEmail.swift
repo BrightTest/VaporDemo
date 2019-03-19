@@ -16,7 +16,7 @@ struct GBoxEmail:Content{
 
 fileprivate var emailDic = Dictionary<String,String>()
 
-fileprivate let smtp = SMTP(hostname: "smtp.163.com", email: "zl0930c10@163.com", password: "zl7152008zl")
+fileprivate let smtp = SMTP(hostname: "smtp.163.com", email: "brighttest.com", password: "brighttest123")
 
 fileprivate let GNewsBoxMailAddress =  Mail.User(name: "新闻盒子", email: "zl0930c10@163.com")
 
