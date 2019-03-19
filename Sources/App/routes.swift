@@ -17,5 +17,5 @@ public func routes(_ router: Router) throws {
     let userController = UserController()
     
     userRouter.post("register", use: userController.register)
-    
+    userRouter.post("getverifycode", use: userController.getVerifyCode)
 }

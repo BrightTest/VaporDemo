@@ -16,9 +16,9 @@ struct GBoxEmail:Content{
 
 fileprivate var emailDic = Dictionary<String,String>()
 
-fileprivate let smtp = SMTP(hostname: "smtp.163.com", email: "brighttest.com", password: "brighttest123")
+fileprivate let smtp = SMTP(hostname: "smtp.163.com", email: "brighttest@163.com", password: "brighttest123")
 
-fileprivate let GNewsBoxMailAddress =  Mail.User(name: "新闻盒子", email: "zl0930c10@163.com")
+fileprivate let GNewsBoxMailAddress =  Mail.User(name: "新闻盒子", email: "brighttest@163.com")
 
 extension GBoxEmail{
     func checkVerifyCode() -> Bool{

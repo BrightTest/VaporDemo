@@ -29,4 +29,25 @@ final class UserController{
             }
         }
     }
+    
+    
+    ///获取验证码
+    func getVerifyCode(req:Request) throws -> Future<ResponseModel<String>>{
+        return try req.content.decode(RequestModel<GBoxEmail>.self).flatMap(){requestBody in
+            return try SercretKey.JudgeSercretKey(sercreKey: requestBody.sercretkey, req: req).flatMap(){result in
+                if !result{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-3,message:secretKeyError,data:nil))
+                }
+                guard let email = requestBody.data else{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-2,message:paramError,data:nil))
+                }
+                return GBoxEmail.sendEmialCode(req: req, email: email.email).map(){sendEmailResult in
+                    if sendEmailResult{
+                        return ResponseModel<String>(status: 0, message: "发送验证码成功", data: nil)
+                    }
+                    return ResponseModel<String>(status: -1, message: "发送验证码失败", data: nil)
+                }
+            }
+        }
+    }
 }
