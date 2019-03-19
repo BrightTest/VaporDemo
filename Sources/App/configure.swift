@@ -24,7 +24,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(databases)
 
     // Configure migrations
-//    var migrations = MigrationConfig()
-//
-//    services.register(migrations)
+    var migrations = MigrationConfig()
+    migrations.add(model: UserRegistInfo.self, database: .mysql)
+    migrations.add(model: SercretKey.self, database: .mysql)
+    migrations.add(model: UserInfo.self, database: .mysql)
+    services.register(migrations)
 }
