@@ -2,6 +2,33 @@
   "object": {
     "pins": [
       {
+        "package": "Cryptor",
+        "repositoryURL": "https://github.com/IBM-Swift/BlueCryptor.git",
+        "state": {
+          "branch": null,
+          "revision": "fe59cc1fcabb390bf9b3b6dd4f8cacc897d91cf6",
+          "version": "1.0.24"
+        }
+      },
+      {
+        "package": "Socket",
+        "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
+        "state": {
+          "branch": null,
+          "revision": "a40b405bdf32bc853307dd5dee8d00636e394013",
+          "version": "1.0.44"
+        }
+      },
+      {
+        "package": "SSLService",
+        "repositoryURL": "https://github.com/IBM-Swift/BlueSSLService.git",
+        "state": {
+          "branch": null,
+          "revision": "6910763b0dfa6f95a75217215d8cdce3ee11a6ae",
+          "version": "1.0.44"
+        }
+      },
+      {
         "package": "Console",
         "repositoryURL": "https://github.com/vapor/console.git",
         "state": {
@@ -26,6 +53,15 @@
           "branch": null,
           "revision": "45bb12d13cdec80dbd1cc0685ea002e51ab83439",
           "version": "3.3.2"
+        }
+      },
+      {
+        "package": "CryptoSwift",
+        "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "8b3435bd3236819318cde87c8d9315fb89906df3",
+          "version": "0.14.0"
         }
       },
       {
@@ -62,6 +98,15 @@
           "branch": null,
           "revision": "b57005e0de30ba36372ac41bfce1ac12b2bc3272",
           "version": "3.1.8"
+        }
+      },
+      {
+        "package": "LoggerAPI",
+        "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
+        "state": {
+          "branch": null,
+          "revision": "d0ccb4158b83f8692531892a9c894bb757593c6f",
+          "version": "1.8.0"
         }
       },
       {
@@ -143,6 +188,15 @@
           "branch": null,
           "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
           "version": "1.0.0"
+        }
+      },
+      {
+        "package": "SwiftSMTP",
+        "repositoryURL": "https://github.com/IBM-Swift/Swift-SMTP.git",
+        "state": {
+          "branch": null,
+          "revision": "54fbbb90df7c8e6dd952755701e4921c96b7d2d2",
+          "version": "4.0.1"
         }
       },
       {
