@@ -52,7 +52,7 @@ extension UserRegistInfo{
         }
         
         // 检查验证码是否正确
-        let userMail = PUBGBoxEmail(email: email, verifycode: verifyCode)
+        let userMail = GBoxEmail(email: email, verifycode: verifyCode)
         if !userMail.checkVerifyCode() {
             return req.eventLoop.newSucceededFuture(result: .verifycodeError)
         }

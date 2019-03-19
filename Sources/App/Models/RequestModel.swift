@@ -20,11 +20,22 @@ extension SercretKey:Migration{}
 extension SercretKey{
     //检查是否授权
     static func JudgeSercretKey(sercreKey:String,req:Request) throws -> Future<Bool>{
-        return try SercretKey.query(on:req).filter(\.sercretkey == sercrekey).first().map(){ result in
+        return try SercretKey.query(on:req).filter(\.sercretkey == sercreKey).first().map(){ result in
             if result == nil{
                 return false
             }
             return true
         }
+    }
+}
+
+final class RequestModel<T>:Content where T:Codable{
+    var sercretkey:String
+    var timestamp:Int
+    var accessToken:String?
+    var data:T?
+    init(sercretkey:String,timestamp:Int) {
+        self.sercretkey = sercretkey
+        self.timestamp = timestamp
     }
 }
