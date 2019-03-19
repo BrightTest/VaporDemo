@@ -18,3 +18,16 @@
         <img src="http://img.shields.io/badge/swift-4.1-brightgreen.svg" alt="Swift 4.1">
     </a>
 </p>
+
+
+验证码请求：http://localhost:8080/user/getverifycode   POST请求
+注：使用Postman需要在Headers设置Content-Type = application/json  在body选中row，后边的下拉框选择JSON(application/json),请求参数如下。
+请求参数
+{
+    "sercretkey":"a123",
+    "timestamp":456132,
+    "data":
+    {
+    "email":"xxx@qq.com"
+    }
+}
