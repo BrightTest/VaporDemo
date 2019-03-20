@@ -50,4 +50,28 @@ final class UserController{
             }
         }
     }
+    
+    
+    ///用户登录
+    func login(req:Request) throws -> Future<ResponseModel<AccessToken>>{
+        return try req.content.decode(RequestModel<UserLoginInfo>.self).flatMap(){requestBody in
+            return try SercretKey.JudgeSercretKey( sercreKey: requestBody.sercretkey, req: req).flatMap(){ result in
+                if !result{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<AccessToken>(status:-3,message:secretKeyError,data:nil))
+                }
+                guard var user = requestBody.data else{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<AccessToken>(status: -2, message: paramError, data: nil))
+                }
+                //检查账户密码是否存在
+                user.password = try encryptPassword(password: user.password)
+                return  UserRegistInfo.query(on: req).filter(\.username == user.username).filter(\.password == user.password).first().map(){ userRegistInfo in
+                    if userRegistInfo == nil{
+                        return ResponseModel<AccessToken>(status: -1, message: "用户名或密码错误", data: nil)
+                    }
+                    let accessToken = AccessToken.login(user: user)
+                    return ResponseModel<AccessToken>(status: 0, message: "登录成功", data: accessToken)
+                }
+            }
+        }
+    }
 }
