@@ -74,4 +74,22 @@ final class UserController{
             }
         }
     }
+    
+    ///用户注销
+    func loignout(req:Request) throws ->Future<ResponseModel<String>>{
+        return try req.content.decode(RequestModel<String>.self).flatMap(){ requestBody in
+            return try SercretKey.JudgeSercretKey(sercreKey: requestBody.sercretkey, req: req).map(){result in
+                //检查客户端秘钥是否正确
+                if !result{
+                    return ResponseModel<String>(status:-3,message:secretKeyError,data:nil)
+                }
+                if AccessToken.logout(accessToken: requestBody.accessToken!){
+                    return ResponseModel<String>(status:0,message:"注销成功",data:nil)
+                }else{
+                    return ResponseModel<String>(status: -1, message: "注销失败", data: nil)
+                }
+            }
+        }
+    }
 }
+ 
