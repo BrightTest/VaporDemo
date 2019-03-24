@@ -21,4 +21,5 @@ public func routes(_ router: Router) throws {
     userRouter.post("login", use: userController.login)
     userRouter.post("loginout", use: userController.loignout)
     userRouter.post("update", use: userController.updateUserInfo)
+    userRouter.post("uploadheadpic", use: userController.updateUserHeadPicture)
 }

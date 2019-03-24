@@ -119,5 +119,56 @@ final class UserController{
             }
         }
     }
+    
+    ///更新用户头像
+    func updateUserHeadPicture(req:Request) throws -> Future<ResponseModel<String>>{
+        return try req.content.decode(RequestModel<File>.self).flatMap(){requestBody in
+            //判断App秘钥
+            return try SercretKey.JudgeSercretKey(sercreKey: requestBody.sercretkey, req: req).flatMap(){result in
+                if !result{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-3,message:secretKeyError,data:nil))
+                }
+                
+                ///判断用户登录状态
+                let loginStatus = AccessToken.checkAccessToken(accessToken: requestBody.accessToken)
+                if .ok != loginStatus{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-1,message:loginStatus.rawValue,data:nil))
+                }
+                
+                ///处理本逻辑
+                guard let file = requestBody.data else{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status: -2, message: paramError, data: nil))
+                }
+                
+                ///获取用户信息
+                let username = AccessToken.getUserNameByAccessToken(accessToken: requestBody.accessToken!)!
+                return   UserInfo.query(on: req).filter(\.username == username).first().flatMap(){queryResult in
+                    //删除存在的头像
+                    let filePath:String = try req.make(DirectoryConfig.self).workDir + "Public" + "/headpic"
+                    let fileManager = FileManager()
+                    var userInfo = queryResult
+                    
+                    if userInfo == nil{
+                        userInfo = UserInfo()
+                        userInfo?.username = username
+                    }
+                    
+                    if userInfo?.headpic != nil{
+                        if fileManager.fileExists(atPath: filePath + "/" + userInfo!.headpic!){
+                            try fileManager.removeItem(atPath: filePath + "/" + userInfo!.headpic!)
+                        }
+                    }
+                    
+                    userInfo?.headpic = username + "." + file.filename.split(separator: ".").map(String.init)[1]
+                    try file.data.write(to: URL(fileURLWithPath: filePath + "/" + userInfo!.headpic!))
+                    if queryResult == nil{
+                        return userInfo!.create(on: req).transform(to: ResponseModel<String>(status: 0, message: "成功", data: nil))
+                    }else{
+                        return userInfo!.create(on: req).transform(to: ResponseModel<String>(status: 0, message: "成功",data: nil))
+                    }
+                }
+            }
+        }
+    }
 }
  
