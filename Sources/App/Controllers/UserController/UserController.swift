@@ -91,5 +91,33 @@ final class UserController{
             }
         }
     }
+    ///更新用户信息
+    func updateUserInfo(req:Request) throws -> Future<ResponseModel<String>>{
+        return try  req.content.decode(RequestModel<UserInfo>.self).flatMap(){requestBody in
+            return try SercretKey.JudgeSercretKey(sercreKey: requestBody.sercretkey, req: req).flatMap(){result in
+                if !result{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-3,message:secretKeyError, data:nil))
+                }
+                let loginStatus = AccessToken.checkAccessToken(accessToken: requestBody.accessToken!)
+                if .ok != loginStatus{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status:-1,message:paramError,data:nil))
+                }
+                
+                guard let username = AccessToken.getUserNameByAccessToken(accessToken: requestBody.accessToken!) else{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status: -4, message: "用户未登录", data: nil))
+                }
+                guard var userInfo = requestBody.data else{
+                    return req.eventLoop.newSucceededFuture(result: ResponseModel<String>(status: 0, message: "成功", data: nil))
+                }
+                userInfo.username = username
+                return  UserInfo.query(on: req).filter(\.username == username).first().flatMap(){originUser in
+                    guard let originUser = originUser else{
+                        return userInfo.create(on: req).transform(to: ResponseModel<String>(status: 0, message: "成功", data: nil))
+                    }
+                    return userInfo.megreUser(orginUser: originUser).update(on:req).transform(to:ResponseModel<String>(status: 0, message: "成功", data: nil))
+                }
+            }
+        }
+    }
 }
  
