@@ -29,4 +29,8 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: SercretKey.self, database: .mysql)
     migrations.add(model: UserInfo.self, database: .mysql)
     services.register(migrations)
+    
+    //配置端口
+    let serverConfigure = NIOServerConfig.default(hostname:"0.0.0.0",port:8080)
+    services.register(serverConfigure)
 }
